@@ -9,8 +9,8 @@ from datetime import datetime
 app = Flask(__name__)
 
 # 加载证书
-context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-context.load_cert_chain('cert.pem', 'key.pem')
+# context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+# context.load_cert_chain('cert.pem', 'key.pem')
 
 app.secret_key = 'your-secret-key'
 app.config['CAPTCHA_FOLDER'] = 'static/captcha'
