@@ -1,26 +1,18 @@
-version: '3'
+version: '3.8'
 
 services:
-  web:
-    build: .
-    container_name: rotator_web
-    ports:
-      - "5000:5000"
-    networks:
-      - tor-net
-
-  tor:
-    image: goldy/tor-hidden-service
-    container_name: tor_service
-    restart: always
-    networks:
-      - tor-net
-    volumes:
-      - ./tor_data:/var/lib/tor
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: unless-stopped
     environment:
-      - HIDDENSERVICE_PORT=80
-      - HIDDENSERVICE_TARGET=rotator_web:5000
+      POSTGRES_USER: rotator          # 设置数据库用户名
+      POSTGRES_PASSWORD: sdf3sjdkfds232jfklsle234  # 设置数据库密码
+      POSTGRES_DB: rotator_database        # 初始化时创建的数据库名
+    ports:
+      - "8000:5432"  # 映射到主机的端口
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # 数据持久化
 
-networks:
-  tor-net:
-    driver: bridge
+volumes:
+  postgres_data:

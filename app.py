@@ -5,11 +5,37 @@ import uuid
 import ssl
 from captcha_generator import generate_captcha_text, generate_captcha_image
 from datetime import datetime
+from database.connection import get_connection, with_cursor
+from database.models.fixed_onion import create_fixed_onion_table
+from database.models.request_logs import create_request_logs_table
+from database.models.rotating_onion import create_rotating_onion_table
+from onion_loader.loader import scan_onion_dirs
 
 app = Flask(__name__)
 
 app.secret_key = 'your-secret-key'
 app.config['CAPTCHA_FOLDER'] = 'static/captcha'
+
+def init_db():
+    conn = get_connection()
+    if not conn:
+        return
+    cursor = conn.cursor()
+    create_fixed_onion_table(cursor)
+    create_rotating_onion_table(cursor)
+    create_request_logs_table(cursor)
+    print("✅ 数据库初始化完成")
+    cursor.close()
+    conn.close()
+
+
+conn = get_connection()
+if conn:
+    cursor = conn.cursor()
+    cursor.execute("SELECT NOW()")
+    print("✅ 当前时间：", cursor.fetchone())
+    conn.close()
+
 
 @app.route('/')
 def index():
@@ -40,4 +66,6 @@ def validate():
 
 
 if __name__ == '__main__':
+    init_db()
+    with_cursor(scan_onion_dirs)
     app.run(debug=True, host="0.0.0.0", port=8080)
