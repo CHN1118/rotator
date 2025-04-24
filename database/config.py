@@ -11,7 +11,7 @@ DB_CONFIG = {
 
 TOR_HS_FPATH = "/opt/homebrew/var/lib/tor/fixed_onion"
 TOR_HS_RPATH = "/opt/homebrew/var/lib/tor/rotating_onion"
+TOR_TORRC = "/opt/homebrew/etc/tor/torrc"
+TOR_SERVER = "/opt/homebrew/Cellar/tor/0.4.8.16/bin/tor"
 
 TOR_HS_PS = "mysecret123"
-
-PID = "28816"

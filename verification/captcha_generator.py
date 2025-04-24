@@ -31,6 +31,6 @@ def generate_captcha_image(text, filename):
     # 模糊
     image = image.filter(ImageFilter.BLUR)
 
-    output_path = os.path.join('static', 'captcha', filename)
+    output_path = os.path.join('./static', 'captcha', filename)
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     image.save(output_path)

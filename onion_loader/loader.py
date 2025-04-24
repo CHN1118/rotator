@@ -1,8 +1,8 @@
 import os
 # import datetime
-from database.config import TOR_HS_PATH
+from database.config import TOR_HS_FPATH
 
-def scan_onion_dirs(cursor, base_dir=TOR_HS_PATH, table='fixed_onion'):
+def scan_onion_dirs(cursor, base_dir=TOR_HS_FPATH, table='fixed_onion'):
     count = 0
     for subdir in os.listdir(base_dir): # 遍历所有子目录
         full_path = os.path.join(base_dir, subdir, 'hostname') # 拼接子目录路径和文件名

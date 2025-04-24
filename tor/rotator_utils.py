@@ -1,35 +1,41 @@
-from stem.control import Controller
 import os
-import time
-from database.connection import with_cursor
-from database.config import TOR_HS_PS
+import hashlib
+import secrets
+import psutil
+from database.config import TOR_TORRC, TOR_SERVER
 
-def create_rotator_onion():
-    with Controller.from_port(port=9051) as controller:
-        controller.authenticate(password=TOR_HS_PS)
 
-        # 创建 ephemeral onion 地址监听本地 8080 端口
-        result = controller.create_ephemeral_hidden_service({80: 8080}, await_publication=True)
 
-        address = result.service_id + ".onion"
-        private_key = result.private_key
-        timestamp = int(time.time())
-        description = f"ephemeral_{timestamp}"
+# 修改 torrc 文件，动态添加新的隐藏服务
+def add_hidden_service(new_hidden_service_dir, port, backend_ip, backend_port):
+    with open(TOR_TORRC, 'a') as f:
+        f.write(f"\nHiddenServiceDir {new_hidden_service_dir}\n")
+        f.write(f"HiddenServicePort {port} {backend_ip}:{backend_port}\n")
+        print("✅ sdfsdfd")
+    pid = find_tor_pid()
+    # 发送 SIGHUP 信号给 Tor 进程，重新加载配置
+    os.system(f"kill -HUP {pid}")
 
-        print("✅ 创建 onion 成功:", address)
+# 使用示例
 
-        # 写入数据库
-        def insert(cursor):
-            cursor.execute("""
-                INSERT INTO rotating_onion (address, private_key, description)
-                VALUES (%s, %s, %s)
-                ON CONFLICT (address) DO UPDATE SET
-                    updated_at = CURRENT_TIMESTAMP;
-            """, (address, private_key, description))
-        with_cursor(insert)
+def find_tor_pid(tor_path=TOR_SERVER):
+    for proc in psutil.process_iter(['pid', 'exe', 'name']):
+        try:
+            if proc.info['exe'] == tor_path:
+                return proc.info['pid']
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            continue
+    return None
 
-        return {
-            "address": address,
-            "private_key": private_key,
-            "service_id": result.service_id,
-        }
+
+def generate_irreversible_string(length=10, input_data=None):
+    # 如果未提供输入数据，则生成随机盐值
+    if input_data is None:
+        input_data = secrets.token_hex(16)  # 32字符的随机字符串
+
+    # 使用 SHA-256 哈希生成不可逆字符串
+    hash_obj = hashlib.sha256(input_data.encode())
+    hash_hex = hash_obj.hexdigest()  # 64字符的十六进制哈希值
+
+    # 截取指定位数（若超过哈希长度则循环填充）
+    return hash_hex[:length] if length <= 64 else (hash_hex * (length // 64 + 1))[:length]
