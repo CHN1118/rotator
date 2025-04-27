@@ -17,6 +17,11 @@ TOR_SERVER = "/opt/homebrew/Cellar/tor/0.4.8.16/bin/tor"
 TOR_HS_PS = "rotatorpsw"
 
 # ROTATOR_TIME = 7 * 60
-ROTATOR_TIME = 30
+# 7分钟生成一个新的
+ROTATOR_TIME = 14
 
-EXPIRES_AT = 60
+# 过期时间为1小时
+EXPIRES_AT = 30
+
+# 清理文件时间
+CHECK_TIME = 30

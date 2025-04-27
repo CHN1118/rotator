@@ -9,7 +9,6 @@ def add_hidden_service(new_hidden_service_dir, port, backend_ip, backend_port):
     with open(TOR_TORRC, 'a') as f:
         f.write(f"\nHiddenServiceDir {new_hidden_service_dir}\n")
         f.write(f"HiddenServicePort {port} {backend_ip}:{backend_port}\n")
-        print("✅ sdfsdfd")
     pid = find_tor_pid()
     # 发送 SIGHUP 信号给 Tor 进程，重新加载配置
     os.system(f"kill -HUP {pid}")
