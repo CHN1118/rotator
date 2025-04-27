@@ -45,3 +45,4 @@ AvoidDiskWrites 1
 tor -f /opt/homebrew/etc/tor/torrc
 ```
 
+## 项目运行的版本为 python 3.10

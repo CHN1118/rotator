@@ -1,20 +1,318 @@
-<!-- templates/index.html -->
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <title>验证码验证</title>
-</head>
-<body>
-    <h2>请输入图片中的验证码：</h2>
-    <form method="POST" action="/validate">
-        <img src="{{ url_for('static', filename=captcha_image) }}" alt="CAPTCHA">
-        <br><br>
-        <input type="text" name="captcha_input" placeholder="输入验证码">
-        <button type="submit">提交</button>
-    </form>
-    <form method="GET" action="/">
-      <button type="submit">换一张</button>
-    </form>
-</body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{#    <link rel="stylesheet" href="styles.css" />#}
+    <title>xxxxxxx</title>
+    <meta
+      name="keywords"
+      content="Torzon Market, dark web market, Torzon Darknet Market, darknet marketplace, onion links, hidden services, Tor marketplace, Tor links, Tor mirrors, deep web market, secure online transactions, anonymous marketplace, private browsing, digital privacy, privacy focused market, darknet market official, digital goods market, decentralized trading, anonymous shopping, Torzon Market Link, dark web commerce, secure online marketplace, private vendors, Torzon Market Onion, Torzon Market URL, trzm, trzm.cc, trzn.cc trzn.cc torzon4kv5swfazrziqvel2imhxcckc4otcvopiv5lnxzpqu4v4m5iyd.onion, torzon4kv5swfazrziqvel2imhxcckc4otcvopiv5lnxzpqu4v4m5iyd "
+    />
+    <meta
+      name="description"
+      content="Explore the official Torzon darknet market through its secure onion link. Dive into a vast array of goods and services offered on the anonymous Torzon platform, ensuring a discreet and private online shopping experience. Discover the convenience and privacy that the Torzon market provides for users seeking a secure marketplace within the darknet."
+    />
+  </head>
+  <body>
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #000000;
+        color: #fff;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        padding-top: 40px;
+        text-align: center;
+      }
+
+      .containerpgp {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+      }
+
+      h1 {
+        color: #3f345f;
+      }
+      h3 {
+        color: #3f345f;
+      }
+      h4 {
+        color: #3f345f;
+      }
+      h5 {
+        color: #3f345f;
+      }
+
+      .link-list {
+        background-color: #f2f2f2;
+        padding: 20px;
+        border-radius: 8px;
+      }
+
+      .link-list a {
+        display: block;
+        color: #3f345f;
+        text-decoration: none;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #fff;
+        border-radius: 4px;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .link-listpgp a:hover {
+        background-color: #3f345f;
+        color: #fff;
+      }
+
+      .link-listpgp {
+        background-color: #e6e6e6;
+        padding: 20px;
+        border-radius: 8px;
+      }
+
+      .link-listpgp a {
+        display: block;
+        color: #3f345f;
+        text-decoration: none;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #fff;
+        border-radius: 4px;
+        transition: background-color 0.3s, color 0.3s;
+        width: 50%;
+      }
+
+      .link-list a:hover {
+        background-color: #3f345f;
+        color: #fff;
+      }
+
+      .add-link-form {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #linkInput {
+        padding: 10px;
+        margin-right: 10px;
+        border: 1px solid #3f345f;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+
+      button {
+        padding: 10px 20px;
+        background-color: #3f345f;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      button:hover {
+        background-color: #2f3947;
+      }
+
+      .tooltip {
+        display: none;
+        position: absolute;
+        background-color: #1d242f;
+        color: #fff;
+        padding: 10px;
+        border-radius: 4px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        z-index: 1;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .link-listonline {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+      }
+
+      .link-listonline a:hover {
+        background-color: #000000;
+        color: #fff;
+        /* box-shadow: 0 0 10px rgba(21, 255, 0, 0.7); */
+      }
+      .link-listonline a:hover .tooltip {
+        display: block;
+      }
+
+      .link-listonline a {
+        display: flex;
+        justify-content: center;
+        color: #3f345f;
+        text-decoration: none;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.359);
+        box-sizing: border-box;
+        border-radius: 4px;
+        position: relative;
+      }
+    </style>
+    <center>
+      <style>
+        .javascript-message {
+          display: block; /* Initially show the message */
+
+          text-align: center;
+          background-color: #f44336; /* Red color for disabled JavaScript */
+          color: #fff; /* White text color */
+        }
+      </style>
+      <div class="javascript-message" id="javascript-message"></div>
+
+      <script>
+        // JavaScript enabled, update the message
+        var javascriptMessage = document.getElementById('javascript-message')
+        javascriptMessage.style.backgroundColor = '#f44336' // Green color for enabled JavaScript
+        javascriptMessage.textContent = 'WARNING: JavaScript is enabled!'
+      </script>
+
+      <div class="container">
+        <div class="link-listonline">
+          <table border="0" style="width: 100%">
+            <tbody>
+              <tr>
+                <td>
+                  <a target="_blank" href="signed.html">Signed Mirrors</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <style>
+            .no-style a {
+              color: inherit !important;
+              text-decoration: none !important;
+              background-color: transparent !important;
+              border: none !important;
+            }
+
+            .no-style a:hover {
+              background-color: transparent !important;
+              color: inherit !important;
+              box-shadow: none !important;
+            }
+          </style>
+
+          <style>
+            .warning-info {
+              border: 2px dashed #3f345f;
+              padding: 2px;
+              margin: 5px;
+              color: #3f345f;
+            }
+          </style>
+
+          <div class="warning-info">
+            <p>
+              ⚠️ Do not use the domains you find in search engines,<br />
+              as search engines are flooded with phishing domains. ⚠️ <br />
+              <br />Official domains can be found at <b>www.xxxxxx.com</b> ,
+              <b>dark.contact</b> or <b>www.sector.biz</b><br /><br />
+              Rotator Tor Domain:<br /><b>
+                这个位置改为当前页面的地址👇
+                h3h66vqwmmxxheeuwi4hhk52ic5svhnb73xdnxnzaj6vrnk742ntnhyd.onion
+              </b>
+            </p>
+          </div>
+
+          <h3>
+            <font color="#3f345f" id="rotating">Rotating Mirrors</font>
+          </h3>
+          <span style="color: rgba(0, 255, 0, 0.7)">■</span>
+          <font color="#3f345f"> Online | </font
+          ><span style="color: rgba(255, 165, 0, 0.7)">■</span>
+          <font color="#3f345f"> Activating soon |</font>
+          <span style="color: rgba(255, 0, 0, 0.7)">■</span>
+          <font color="#3f345f"> Down </font>
+
+          <br /><br />
+        {% for onion in rotating_onions %}
+            <a target="_blank"
+            style="
+              color: #3f345f;
+              text-decoration: none;
+              padding: 10px;
+              margin-bottom: 10px;
+              background-color: #fff;
+              border-radius: 4px;
+              box-shadow: 0 0 5px {{ onion.status }};
+            "
+            href="{{ url_for('onion_detail', onion_id=onion.id) }}"
+            >Mirror: {{ onion.short_address }} - Expires in: {{ onion.time_left }}</a>
+        {% endfor %}
+
+          <br />
+
+          <h3>Mirrors</h3>
+          {% for address, is_active in fixed_onions %}
+              <a target="_blank"  href="http://{{ address }}" >{{ address }}</a>
+          {% endfor %}
+
+        </div>
+      </div>
+    </center>
+  </body>
 </html>
+
+
+<!-- templates/index.html -->
+{#<!DOCTYPE html>#}
+{#<html lang="zh-CN">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>验证码验证</title>#}
+{#</head>#}
+{#<body>#}
+{#    <h2>请输入图片中的验证码：</h2>#}
+{#    <form method="POST" action="/validate">#}
+{#        <img src="{{ url_for('static', filename=captcha_image) }}" alt="CAPTCHA">#}
+{#        <br><br>#}
+{#        <input type="text" name="captcha_input" placeholder="输入验证码">#}
+{#        <button type="submit">提交</button>#}
+{#    </form>#}
+{#    <form method="GET" action="/">#}
+{#      <button type="submit">换一张</button>#}
+{#    </form>#}
+{#</body>#}
+{#</html>#}
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Onion Addresses</title>#}
+{#</head>#}
+{#<body>#}
+{#    <h1>Fixed Onions (固定节点)</h1>#}
+{#        {% for address, is_active in fixed_onions %}#}
+{#            <a target="_blank"  href="http://{{ address }}" ><strong>{{ address }}</strong>状态:{{ is_active }}</a>#}
+{#        {% endfor %}#}
+{##}
+{#    <h1>Rotating Onions (轮换节点)</h1>#}
+{#    <ul>#}
+{#        {% for onion in rotating_onions %}#}
+{#            <li><strong>{{ onion.short_address }}</strong>  <br> period: {{ onion.time_left }}<br>ID:{{ onion.id }}</li>#}
+{#        {% endfor %}#}
+{#    </ul>#}
+{#</body>#}
+{#</html>#}
+
