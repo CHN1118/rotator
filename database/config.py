@@ -9,15 +9,16 @@ DB_CONFIG = {
     "dbname": os.getenv("DB_NAME", "rotator_database"),
 }
 
-TOR_HS_FPATH = "/opt/homebrew/var/lib/tor/fixed_onion"
-TOR_HS_RPATH = "/opt/homebrew/var/lib/tor/rotating_onion"
-TOR_TORRC = "/opt/homebrew/etc/tor/torrc"
-TOR_SERVER = "/opt/homebrew/Cellar/tor/0.4.8.16/bin/tor"
+TOR_HS_FPATH = "/opt/homebrew/var/lib/tor/fixed_onion" # 固定 onion
+TOR_HS_RPATH = "/opt/homebrew/var/lib/tor/rotating_onion" # 旋转 onion
+TOR_TORRC = "/opt/homebrew/etc/tor/torrc" # torrc
+TOR_SERVER = "/opt/homebrew/Cellar/tor/0.4.8.16/bin/tor" # tor
 
-TOR_HS_PS = "rotatorpsw"
+TOR_HS_PS = "rotatorpsw" # tor 密码
 
-ROTATOR_TIME = 7 * 60
+
 # 7分钟生成一个新的
+ROTATOR_TIME = 7 * 60
 # ROTATOR_TIME = 14
 
 # 过期时间为1小时

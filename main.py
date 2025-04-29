@@ -5,9 +5,9 @@ from database.config import TOR_HS_FPATH, CHECK_TIME
 from database.connection import init_db, with_cursor
 from flask_main import create_app
 from onion_loader.loader import scan_fonion_dirs
-from pkg.rotation_training import countdown_half_rotator_once, rotator_loop
+from pkg.rotation_training import  rotator_loop
 from tor.create_ronion import create_ronion, deactivate_expired_onions, clean_fully_expired_onions
-from tor.rotator_utils import generate_irreversible_string, add_hidden_service
+from tor.rotator_utils import generate_irreversible_string, add_hidden_service, find_tor_pid_w
 
 app = create_app()
 
@@ -22,6 +22,17 @@ def creat_fonion():
     with_cursor(scan_fonion_dirs)
 
 if __name__ == '__main__':
+    # Windows 示例路径
+    # TOR_SERVER = r"C:\Tor\Tor\tor.exe"
+    # pid = find_tor_pid_w(TOR_SERVER)
+    # print(f"Tor PID: {pid}")
+    # Mac/Linux
+    # os.kill(pid, signal.SIGHUP)
+
+    # Windows（重启或模拟重载，没 SIGHUP）
+    # proc = psutil.Process(pid)
+    # proc.terminate()  # 或 proc.kill() 然后再手动重启
+
     if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
         init_db()
         # threading.Thread(target=countdown_half_rotator_once, args=(creat_fonion,), daemon=True).start()

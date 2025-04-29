@@ -46,7 +46,6 @@ def create_ronion():
 
     return onion_address  # 可返回给调用者做记录
 
-
 # 检查过期的.onion
 def deactivate_expired_onions():
     now = datetime.utcnow()
@@ -121,6 +120,7 @@ def deactivate_expired_onions():
     conn.close()
     print("✅ 所有过期服务已处理完毕")
 
+# 清理过期的.onion
 def clean_fully_expired_onions():
     now = datetime.utcnow()
     conn = get_connection()

@@ -2,6 +2,7 @@ import os
 import hashlib
 import secrets
 import psutil
+import os
 from database.config import TOR_TORRC, TOR_SERVER
 
 # 修改 torrc 文件，动态添加新的隐藏服务
@@ -23,6 +24,30 @@ def find_tor_pid(tor_path=TOR_SERVER):
         except (psutil.NoSuchProcess, psutil.AccessDenied):
             continue
     return None
+
+
+#  查找 Tor 进程的 PID
+def find_tor_pid_w(tor_path):
+    tor_path_normalized = os.path.normcase(os.path.normpath(tor_path))
+
+    for proc in psutil.process_iter(['pid', 'exe', 'name']):
+        try:
+            exe = proc.info.get('exe')
+            name = proc.info.get('name')
+
+            if exe:
+                exe_normalized = os.path.normcase(os.path.normpath(exe))
+                if exe_normalized == tor_path_normalized:
+                    return proc.info['pid']
+
+            # 回退判断：Windows 上可能获取不到 exe，就判断进程名是否为 tor.exe
+            if os.name == 'nt' and name and 'tor.exe' in name.lower():
+                return proc.info['pid']
+
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            continue
+    return None
+
 
 
 # 生成不可逆字符串
