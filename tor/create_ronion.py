@@ -2,17 +2,20 @@ import os
 import shutil
 import time
 from datetime import datetime, timedelta
+
+from dotenv import load_dotenv
+
 from database.config import TOR_HS_RPATH, EXPIRES_AT, TOR_TORRC, CHECK_TIME
 from database.connection import get_connection
 from tor.rotator_utils import generate_irreversible_string, add_hidden_service, find_tor_pid
 
-
+load_dotenv()
 # 创建动态.onion
 def create_ronion():
     result = generate_irreversible_string(12) # 生成随机字符串
     file_name = f"r_o{result}"
     onion_path = os.path.join(TOR_HS_RPATH, file_name) # 生成隐藏服务路径
-    add_hidden_service(onion_path, 80, '127.0.0.1', 8080) # 添加隐藏服务
+    add_hidden_service(onion_path, 80, os.getenv("ONION_IP", "127.0.0.1"), os.getenv("ONION_PORT", "7100"))# 添加隐藏服务
     # 等待 hostname 文件生成
     hostname_file = os.path.join(onion_path, 'hostname')
     for _ in range(30):  # 最多等待 30 秒

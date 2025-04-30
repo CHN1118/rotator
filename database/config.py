@@ -1,5 +1,9 @@
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 # 可以通过环境变量来动态配置
 DB_CONFIG = {
     "host": os.getenv("DB_HOST", "localhost"),
@@ -9,19 +13,12 @@ DB_CONFIG = {
     "dbname": os.getenv("DB_NAME", "rotator_database"),
 }
 
-TOR_HS_FPATH = "/opt/homebrew/var/lib/tor/fixed_onion"
-TOR_HS_RPATH = "/opt/homebrew/var/lib/tor/rotating_onion"
-TOR_TORRC = "/opt/homebrew/etc/tor/torrc"
-TOR_SERVER = "/opt/homebrew/Cellar/tor/0.4.8.16/bin/tor"
+TOR_HS_FPATH = os.getenv("TOR_HS_FPATH")
+TOR_HS_RPATH = os.getenv("TOR_HS_RPATH")
+TOR_TORRC = os.getenv("TOR_TORRC")
+TOR_SERVER = os.getenv("TOR_SERVER")
+TOR_HS_PS = os.getenv("TOR_HS_PS", "rotatorpsw")
 
-TOR_HS_PS = "rotatorpsw"
-
-ROTATOR_TIME = 7 * 60
-# 7分钟生成一个新的
-# ROTATOR_TIME = 14
-
-# 过期时间为1小时
-EXPIRES_AT = 60 * 60
-
-# 清理文件时间
-CHECK_TIME = 12 * 60 * 60
+ROTATOR_TIME = int(os.getenv("ROTATOR_TIME", 7 * 60))
+EXPIRES_AT = int(os.getenv("EXPIRES_AT", 60 * 60))
+CHECK_TIME = int(os.getenv("CHECK_TIME", 12 * 60 * 60))
