@@ -34,7 +34,7 @@ def countdown_half_rotator_once(funcf,funcl):
 
     print("✅ countdown_half_rotator_once 执行完成")
 
-
+# 获取固定 onion
 def get_fixed_onions():
     conn = get_connection()
     cursor = conn.cursor()
@@ -48,7 +48,7 @@ def get_fixed_onions():
     conn.close()
     return onions
 
-
+# 获取轮换 onion
 def get_rotating_onions():
     conn = get_connection()
     cursor = conn.cursor()
